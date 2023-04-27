@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project/NaviBar.dart';
+import 'package:Fulbright_Vietnam_Forum/NaviBar.dart';
 
 bool _favState = false;
 int _favCount = 8;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:project/API%20backend/route/route_config.dart';
-import 'package:project/NaviBar.dart';
-import 'package:project/login.dart';
-import 'package:project/topicpage.dart';
+import 'package:Fulbright_Vietnam_Forum/APIBackend/route/route_config.dart';
+import 'package:Fulbright_Vietnam_Forum/NaviBar.dart';
+import 'package:Fulbright_Vietnam_Forum/login.dart';
+import 'package:Fulbright_Vietnam_Forum/topicpage.dart';
 import 'theme.dart';
 import 'firebase_options.dart';
 import 'homepage.dart';

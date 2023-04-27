@@ -66,7 +66,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '30010715802',
     projectId: 'fulbrightforum-8d6f9',
     storageBucket: 'fulbrightforum-8d6f9.appspot.com',
-    iosClientId: '30010715802-mh2giut6fkg4s5noi6963togjbcgiab9.apps.googleusercontent.com',
+    iosClientId:
+        '30010715802-mh2giut6fkg4s5noi6963togjbcgiab9.apps.googleusercontent.com',
     iosBundleId: 'com.example.project',
   );
 
@@ -76,7 +77,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '30010715802',
     projectId: 'fulbrightforum-8d6f9',
     storageBucket: 'fulbrightforum-8d6f9.appspot.com',
-    iosClientId: '30010715802-mh2giut6fkg4s5noi6963togjbcgiab9.apps.googleusercontent.com',
+    iosClientId:
+        '30010715802-mh2giut6fkg4s5noi6963togjbcgiab9.apps.googleusercontent.com',
     iosBundleId: 'com.example.project',
   );
 }
