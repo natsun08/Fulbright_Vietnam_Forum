@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "30010715802",
+    "project_id": "fulbrightforum-8d6f9",
+    "storage_bucket": "fulbrightforum-8d6f9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:30010715802:android:04fa23b3799a7a45e3b923",
+        "android_client_info": {
+          "package_name": "com.example.project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "30010715802-ak95mnva2lh8l0fd9vig1etkaicb81jr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCRkOaN2Iu78Jd29JYUS0r5b9RNTNlLHs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "30010715802-ak95mnva2lh8l0fd9vig1etkaicb81jr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
