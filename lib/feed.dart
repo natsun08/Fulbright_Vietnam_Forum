@@ -1,3 +1,5 @@
+/// Main coder: Khue
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,6 +32,7 @@ class HomeView extends StatelessWidget {
   Widget _postAuthorRow(BuildContext context) {
     const double avatarDiameter = 44;
     return GestureDetector(
+      // Chi works on the onTap
       onTap: () => BlocProvider.of<HomeNavigatorCubit>(context).showProfile(),
       child: Row(
         children: [

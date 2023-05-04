@@ -1,7 +1,10 @@
+/// Main coder: Uyen
+/// Small modification: Chi
 // NAVIGATION BAR MAIN
 import 'package:flutter/material.dart';
 import 'theme.dart';
 
+//Switched the original widget to PreferredSizeWidget so it can be used as appBar (Chi)
 class Bar extends StatelessWidget implements PreferredSizeWidget {
   Bar({
     Key? key,

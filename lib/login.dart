@@ -1,4 +1,5 @@
-// CODING SPACE HERE
+/// Main coder: Uyen
+/// Small modification: Chi
 import 'package:go_router/go_router.dart';
 
 import 'package:flutter/material.dart';
@@ -131,6 +132,7 @@ class _LoginPageState extends State<LoginPage> {
                                 fontWeight: FontWeight.w100)),
                         onPressed: () {
                           // update our string variable to get user input
+                          // Chi works on the verification for the _email
                           _email = _emailController.text;
                           if (_email == "mail" && password == '1234') {
                             isPasswordCorrect = true;
