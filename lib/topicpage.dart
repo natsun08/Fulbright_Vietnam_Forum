@@ -14,6 +14,17 @@ class MyTopicPage extends StatefulWidget {
 class _MyTopicPageState extends State<MyTopicPage> {
   @override
   Widget build(BuildContext context) {
+    var topics = [{'name': 'Baking', 'img': '../assets/images/topicpage/baking.png'},
+                  {'name': 'Cooking', 'img': '../assets/images/topicpage/cooking.png'},
+                  {'name': 'Clubs', 'img': '../assets/images/topicpage/clubs.png'},
+                  {'name': 'Entertainment', 'img': '../assets/images/topicpage/entertainment.png'},
+                  {'name': 'Financial Management', 'img': '../assets/images/topicpage/financialmanagement.png'},
+                  {'name': 'Inclusivity', 'img': '../assets/images/topicpage/inclusivity.png'},
+                  {'name': 'Night Life', 'img': '../assets/images/topicpage/nightlife.png'},
+                  {'name': 'Residential Life', 'img': '../assets/images/topicpage/residentiallife.png'},
+                  {'name': 'Sports', 'img': '../assets/images/topicpage/sports.png'},
+                  {'name': 'Others', 'img': '../assets/images/topicpage/others.png'}];
+
     return LayoutBuilder(builder: (context, constraints) {
       return Scaffold(
         appBar: Bar(),
@@ -28,39 +39,11 @@ class _MyTopicPageState extends State<MyTopicPage> {
                 mainAxisSpacing: 20,
                 crossAxisCount: 4,
                 childAspectRatio: 1.3,
-                children: const <Widget>[
-                  TopicCard(
-                      topic: "Baking",
-                      imgPath: "../assets/images/topicpage/baking.png"),
-                  TopicCard(
-                      topic: "Cooking",
-                      imgPath: "../assets/images/topicpage/cooking.png"),
-                  TopicCard(
-                      topic: "Clubs",
-                      imgPath: "../assets/images/topicpage/clubs.png"),
-                  TopicCard(
-                      topic: "Entertainment",
-                      imgPath: "../assets/images/topicpage/entertainment.png"),
-                  TopicCard(
-                      topic: "Financial Management",
-                      imgPath:
-                          "../assets/images/topicpage/financialmanagement.png"),
-                  TopicCard(
-                      topic: "Inclusivity",
-                      imgPath: "../assets/images/topicpage/inclusivity.png"),
-                  TopicCard(
-                      topic: "Night Life",
-                      imgPath: "../assets/images/topicpage/nightlife.png"),
-                  TopicCard(
-                      topic: "Residential Life",
-                      imgPath:
-                          "../assets/images/topicpage/residentiallife.png"),
-                  TopicCard(
-                      topic: "Sports",
-                      imgPath: "../assets/images/topicpage/sports.png"),
-                  TopicCard(
-                      topic: "Others",
-                      imgPath: "../assets/images/topicpage/others.png"),
+                children: <Widget>[
+                  for ( var topic in topics) TopicCard(
+                    topic: topic['name'].toString(),
+                    imgPath: topic['img'].toString(),
+                  ),
                 ],
               ),
             ),
