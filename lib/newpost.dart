@@ -8,7 +8,8 @@ import "NaviBar.dart";
 void main() => runApp(const MyApp());  // Remove this
 
 // Query data //
-const fulbrightBlue = Color(0xFF00196E);  /// Change to Theme.of(context).colorScheme.fulbrightBlue
+const fulbrightBlue = Color(0xFF00196E);  /// Change to Theme.of(context).colorScheme.primary
+const fulbrightGlod = Color(0xFFFFAD1D);  /// Change to Theme.of(context).colorScheme.secondary
 const titleLarge =  TextStyle(fontSize: 48.0, fontFamily: 'Garamond Premier Pro', color: Color(0xFF00196E)); /// Change to Theme.of(context).textTheme.titleLarge
 const displaySmall = TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500, fontFamily: 'Halyard Display', color: Color(0xFF212121)); /// Change to Theme.of(context).textTheme.displaySmall
 const topics = [{'name': 'Course', 'parent': 'Academic'}, {'name': 'Event', 'parent': 'Academic'}, {'name': 'Library', 'parent': 'Academic'}, {'name': 'Opportunities', 'parent': 'Academic'},
@@ -40,7 +41,7 @@ class _NewPostPageState extends State<NewPostPage> {
     return Overlay(                                       /// Remove this
       initialEntries: [ OverlayEntry(                     /// Remove this
         builder: (context) => Scaffold(                   /// Change to "return Scaffold"
-          appBar: Bar(),
+          appBar: const Bar(),
           body: Center(
             child: Container(
               // width: MediaQuery.of(context).size.width * 0.5,
@@ -60,24 +61,45 @@ class _NewPostPageState extends State<NewPostPage> {
                   const Padding(padding: EdgeInsets.symmetric(vertical: 12.0)),
                   const DropdownButtonField(initalValue: "Clubs"),
                   const Padding(padding: EdgeInsets.symmetric(vertical: 4.0)),
-
-                  // Add contents
-                  Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      border: Border.all(width: 1, color: fulbrightBlue)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: const [
-                          InputField(label: "Title", numLines: 1),
-                          Padding(padding: EdgeInsets.symmetric(vertical: 12.0)),
-                          InputField(label: "Content", numLines: 20)]
+                  
+                  Row(children: [
+                    // Add contents
+                    Container(
+                      width: MediaQuery.of(context).size.width - 260,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        border: Border.all(width: 1, color: fulbrightBlue)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: const [
+                            InputField(label: "Title", numLines: 1),
+                            Padding(padding: EdgeInsets.symmetric(vertical: 12.0)),
+                            InputField(label: "Content", numLines: 20)]
+                        )
                       )
+                    ),
+                    const Spacer(),
+                    // Attach and publish buttons
+                    Column(
+                      children: [
+                        OutlinedButton(
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40)),
+                          onPressed: () {debugPrint('Received click 1');},
+                          child: const Text('Save as Draft'),),
+                        OutlinedButton(
+                          style: TextButton.styleFrom(
+                            backgroundColor: fulbrightGold,
+                            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40)),
+                          onPressed: () {debugPrint('Received click 2');},
+                          child: const Text('Publish Post'),)
+                      ]
                     )
-                  )
+                    
+                ])
               ])
-            )
+            ),
           )
 /// Remove from this line
         )

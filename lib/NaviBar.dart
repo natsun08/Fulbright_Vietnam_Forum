@@ -6,15 +6,15 @@ import 'theme.dart';
 
 //Switched the original widget to PreferredSizeWidget so it can be used as appBar (Chi)
 class Bar extends StatelessWidget implements PreferredSizeWidget {
-  Bar({
+  const Bar({
     Key? key,
-  })  : preferredSize = Size.fromHeight(kToolbarHeight),
+  })  : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key);
   @override
   final Size preferredSize; // default is 56.0
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: NaviBar(),
     );
   }
@@ -44,34 +44,34 @@ class _NaviBarState extends State<NaviBar> {
                 onPressed: () {
                   //do something when hamburger bar is pressed on
                 },
-                icon: Image.asset('images/icon/hamburger-button.png')),
-            SizedBox(width: 30.0),
+                icon: const Icon(Icons.menu)),
+            const SizedBox(width: 30.0),
             // CHILD 2: LOGO
-            Container(child: Image.asset('images/icon/Logo.png')),
-            SizedBox(width: 60.0),
+            Image.asset('images/icon/Logo.png'),
+            const SizedBox(width: 60.0),
             // CHILD 3: SEARCH BOX
             Flexible(
                 child: TextField(
-                    style: TextStyle(fontSize: 16.0),
+                    style: const TextStyle(fontSize: 16.0),
                     //controller: _searchText,
                     decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.zero,
                             borderSide: BorderSide(
-                                color: Color.fromRGBO(0, 25, 110, 1),
-                                width: 2.0)),
+                                color: Theme.of(context).primaryColor,
+                                width: 1.0)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.zero,
                             borderSide: BorderSide(
-                                color: Color.fromRGBO(0, 25, 110, 1),
-                                width: 2.0)),
+                                color: Theme.of(context).primaryColor,
+                                width: 1.0)),
                         hintText: 'Search for content by keywords here...',
-                        suffixIcon: Image.asset('images/icon/search_icon.png'),
+                        suffixIcon: const Icon(Icons.search),
                         fillColor: Colors.white,
                         filled: true))),
-            SizedBox(width: 40.0),
+            const SizedBox(width: 40.0),
             // CHILD 4: PROFILE PIC
-            Container(child: Image.asset('images/pfp/profilepic.png'))
+            Image.asset('images/pfp/profilepic.png')
           ]))
     ]));
   }

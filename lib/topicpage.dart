@@ -30,7 +30,7 @@ class _MyTopicPageState extends State<MyTopicPage> {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return Scaffold(
-        appBar: Bar(),
+        appBar: const Bar(),
         body: Center(
             child: CustomScrollView(
           primary: false,
