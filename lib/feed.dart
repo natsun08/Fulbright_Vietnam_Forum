@@ -1,7 +1,6 @@
 /// Main coder: Khue
 import 'package:flutter/material.dart';
 import 'package:Fulbright_Vietnam_Forum/NaviBar.dart';
-// import 'package:favorite_button/favorite_button.dart';
 import 'package:like_button/like_button.dart';
 
 List<String> contentData = [
@@ -112,42 +111,6 @@ class _MyHomePageState extends State<MyHomePage> {
     ));
   }
 
-  // Widget _likeCount(BuildContext context) {
-  //   int count = 8;
-  //   if (_favState) {
-  //     count = _favCount + 1;
-  //   }
-  //   return Column(
-  //     children: [Text('${count}')],
-  //   );
-  // }
-
-  Color _favColor = const Color.fromARGB(255, 98, 179, 255);
-  // FavState _state = new FavState();
-
-  // Widget _favoriteButton(BuildContext context) {
-  //   return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-  //     IconButton(
-  //       icon: const Icon(
-  //         Icons.favorite,
-  //         size: 24.0,
-  //       ),
-  //       color: _favColor,
-  //       onPressed: () {
-  //         setState(() {
-  //           // _state.switchState();
-  //           _favState = !_favState;
-  //           if (!_favState) {
-  //             _favColor = const Color.fromARGB(255, 98, 179, 255);
-  //           } else {
-  //             _favColor = Colors.red;
-  //           }
-  //         });
-  //       },
-  //     )
-  //   ]);
-  // }
-
   Widget _commentButton(BuildContext context) {
     return const Padding(
       padding: EdgeInsets.symmetric(horizontal: 8),
@@ -161,11 +124,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget interactButtons(BuildContext context) {
     return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-      // _likeCount(context),
-      // _favoriteButton(context),
-      // FavoriteButton(
-      //   valueChanged: (_) {},
-      // ),
       LikeButton(
         size: 27,
         likeCount: 635,
