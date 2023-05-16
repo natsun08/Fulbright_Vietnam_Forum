@@ -1,9 +1,16 @@
 /// Main coder: Quan
-
 import 'package:flutter/material.dart';
 import 'NaviBar.dart';
 import 'package:go_router/go_router.dart';
 
+// Query data //
+const categories = [{'name': 'Academic', 'img': '../assets/images/homepage/academic.png'},
+                    {'name': 'Career', 'img': '../assets/images/homepage/career.png'},
+                    {'name': 'Student Life', 'img': '../assets/images/homepage/studentlife.png'},
+                    {'name': 'Wellness', 'img': '../assets/images/homepage/wellness.png'}];
+
+
+// Home page screen //
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -28,20 +35,11 @@ class _HomePageState extends State<HomePage> {
                 mainAxisSpacing: 20,
                 crossAxisCount: 2,
                 childAspectRatio: 1.7,
-                children: const <Widget>[
-                  CategoryCard(
-                      topic: "Academic",
-                      imgPath: "../assets/images/homepage/academic.png"),
-                  CategoryCard(
-                      topic: "Career",
-                      imgPath: "../assets/images/homepage/career.png"),
-                  CategoryCard(
-                      topic: "Student Life",
-                      imgPath: "../assets/images/homepage/studentlife.png"),
-                  CategoryCard(
-                      topic: "Wellness",
-                      imgPath: "../assets/images/homepage/wellness.png"),
-                ],
+                children: <Widget>[
+                  for ( var cate in categories) CategoryCard(
+                    topic: cate['name'].toString(),
+                    imgPath: cate['img'].toString(),
+                  ),],
               ),
             ),
           ],
@@ -51,6 +49,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+// Category Card //
 class CategoryCard extends StatefulWidget {
   const CategoryCard({super.key, required this.topic, required this.imgPath});
   final String topic;

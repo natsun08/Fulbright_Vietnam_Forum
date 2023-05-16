@@ -25,7 +25,7 @@ class MyTheme {
         background: white,
         onBackground: fulbrightStone,
         outline: fulbrightBlue,
-        error: Colors.red,
+        error: red,
       ),
 
       // Typography
@@ -52,7 +52,9 @@ class MyTheme {
             fontFamily: 'Halyard Display',
             color: dark), // H2
         bodyMedium: TextStyle(
-            fontSize: 16.0, fontFamily: 'Halyard Display', color: dark), // Body
+            fontSize: 16.0, 
+            fontFamily: 'Halyard Display', 
+            color: dark), // Body
         bodySmall: TextStyle(
             fontSize: 11.0,
             fontFamily: 'Halyard Display',
