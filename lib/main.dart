@@ -2,12 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:Fulbright_Vietnam_Forum/APIBackend/route/route_config.dart';
-import 'package:Fulbright_Vietnam_Forum/NaviBar.dart';
-import 'package:Fulbright_Vietnam_Forum/login.dart';
-import 'package:Fulbright_Vietnam_Forum/topicpage.dart';
 import 'theme.dart';
 import 'firebase_options.dart';
-import 'homepage.dart';
 
 
 Future<void> main() async {
@@ -28,8 +24,7 @@ class MyApp extends StatelessWidget {
       title: 'Fulbright Forum',
       debugShowCheckedModeBanner: false,
       theme: MyTheme.defaultTheme,
-      routeInformationParser: MyAppRouter().router.routeInformationParser,
-      routerDelegate: MyAppRouter().router.routerDelegate,
+      routerConfig: MyAppRouter().router,
     );
   }
 }

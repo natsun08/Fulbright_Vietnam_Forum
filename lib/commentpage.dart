@@ -109,7 +109,7 @@ class _NewPostPageState extends State<NewPostPage> {
                                         shape: BoxShape.rectangle,
                                         border: Border.all(
                                             width: 1, color: fulbrightBlue)),
-                                    child: const Padding(
+                                    child: Padding(
                                         padding: EdgeInsets.all(8.0),
                                         child: Column(children: [
                                           InputField(
@@ -485,7 +485,7 @@ class _MyHomePageState extends State<MyHomePage> {
             _commentAuthorRow(context),
             _commentCaption(index),
             _commentContent(index),
-            const Row(children: [
+            Row(children: [
               LikeButton(
                 size: 27,
                 likeCount: 635,

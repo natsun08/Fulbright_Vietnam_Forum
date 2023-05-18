@@ -1,4 +1,5 @@
 /// Main coder: Quan
+
 import 'package:flutter/material.dart';
 import 'NaviBar.dart';
 import 'package:go_router/go_router.dart';
@@ -42,11 +43,20 @@ class _HomePageState extends State<HomePage> {
                 mainAxisSpacing: 20,
                 crossAxisCount: 2,
                 childAspectRatio: 1.7,
-                children: <Widget>[
-                  for ( var cate in categories) CategoryCard(
-                    topic: cate['name'].toString(),
-                    imgPath: cate['img'].toString(),
-                  ),],
+                children: const <Widget>[
+                  CategoryCard(
+                      topic: "Academic",
+                      imgPath: "../assets/images/homepage/academic.png"),
+                  CategoryCard(
+                      topic: "Career",
+                      imgPath: "../assets/images/homepage/career.png"),
+                  CategoryCard(
+                      topic: "Student Life",
+                      imgPath: "../assets/images/homepage/studentlife.png"),
+                  CategoryCard(
+                      topic: "Wellness",
+                      imgPath: "../assets/images/homepage/wellness.png"),
+                ],
               ),
             ),
           ],
@@ -56,7 +66,6 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-// Category Card //
 class CategoryCard extends StatefulWidget {
   const CategoryCard({super.key, required this.topic, required this.imgPath});
   final String topic;
@@ -72,7 +81,7 @@ class _CategoryCardState extends State<CategoryCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () => {GoRouter.of(context).pushNamed(widget.topic)},
+        onTap: () => {GoRouter.of(context).go("/" + widget.topic)},
         onHover: (hovering) {
           setState(() => isHover = hovering);
         },

@@ -5,17 +5,27 @@ import 'theme.dart';
 import "NaviBar.dart";
 
 // Query data //
-const topics = [{'name': 'Baking', 'img': '../assets/images/topicpage/baking.png'},
-              {'name': 'Cooking', 'img': '../assets/images/topicpage/cooking.png'},
-              {'name': 'Clubs', 'img': '../assets/images/topicpage/clubs.png'},
-              {'name': 'Entertainment', 'img': '../assets/images/topicpage/entertainment.png'},
-              {'name': 'Financial Management', 'img': '../assets/images/topicpage/financialmanagement.png'},
-              {'name': 'Inclusivity', 'img': '../assets/images/topicpage/inclusivity.png'},
-              {'name': 'Night Life', 'img': '../assets/images/topicpage/nightlife.png'},
-              {'name': 'Residential Life', 'img': '../assets/images/topicpage/residentiallife.png'},
-              {'name': 'Sports', 'img': '../assets/images/topicpage/sports.png'},
-              {'name': 'Others', 'img': '../assets/images/topicpage/others.png'}];
-
+const topics = [
+  {'name': 'Baking', 'img': '../assets/images/topicpage/baking.png'},
+  {'name': 'Cooking', 'img': '../assets/images/topicpage/cooking.png'},
+  {'name': 'Clubs', 'img': '../assets/images/topicpage/clubs.png'},
+  {
+    'name': 'Entertainment',
+    'img': '../assets/images/topicpage/entertainment.png'
+  },
+  {
+    'name': 'Financial Management',
+    'img': '../assets/images/topicpage/financialmanagement.png'
+  },
+  {'name': 'Inclusivity', 'img': '../assets/images/topicpage/inclusivity.png'},
+  {'name': 'Night Life', 'img': '../assets/images/topicpage/nightlife.png'},
+  {
+    'name': 'Residential Life',
+    'img': '../assets/images/topicpage/residentiallife.png'
+  },
+  {'name': 'Sports', 'img': '../assets/images/topicpage/sports.png'},
+  {'name': 'Others', 'img': '../assets/images/topicpage/others.png'}
+];
 
 // Topic page //
 class MyTopicPage extends StatefulWidget {
@@ -43,10 +53,12 @@ class _MyTopicPageState extends State<MyTopicPage> {
                 crossAxisCount: 4,
                 childAspectRatio: 1.3,
                 children: <Widget>[
-                  for ( var topic in topics) TopicCard(
-                    topic: topic['name'].toString(),
-                    imgPath: topic['img'].toString(),
-                  ),],
+                  for (var topic in topics)
+                    TopicCard(
+                      topic: topic['name'].toString(),
+                      imgPath: topic['img'].toString(),
+                    ),
+                ],
               ),
             ),
           ],
@@ -72,7 +84,7 @@ class _TopicCardState extends State<TopicCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () => {GoRouter.of(context).pushNamed(widget.topic)},
+        onTap: () => {GoRouter.of(context).go("/" + widget.topic)},
         onHover: (hovering) {
           setState(() => isHover = hovering);
         },
