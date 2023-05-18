@@ -66,7 +66,7 @@ class _CategoryCardState extends State<CategoryCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () => {GoRouter.of(context).pushNamed(widget.topic)},
+        onTap: () => {GoRouter.of(context).go("/" + widget.topic)},
         onHover: (hovering) {
           setState(() => isHover = hovering);
         },
