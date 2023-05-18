@@ -10,19 +10,23 @@ void main() => runApp(const MyApp()); // Remove this
 // Query data //
 /// Change to Theme.of(context).colorScheme.primary
 const fulbrightBlue = Color(0xFF00196E);
+
 /// Change to Theme.of(context).colorScheme.secondary
 const fulbrightGlod = Color(0xFFFFAD1D);
+
 /// Change to Theme.of(context).textTheme.titleLarge
 const titleLarge = TextStyle(
     fontSize: 48.0,
     fontFamily: 'Garamond Premier Pro',
     color: Color(0xFF00196E));
+
 /// Change to Theme.of(context).textTheme.displaySmall
 const displaySmall = TextStyle(
     fontSize: 16.0,
     fontWeight: FontWeight.w500,
     fontFamily: 'Halyard Display',
     color: Color(0xFF212121));
+
 /// Change to Theme.of(context).textTheme.displayMedium
 const displayMedium = TextStyle(
     fontSize: 24.0, fontFamily: 'Halyard Display', color: Color(0xFF212121));
@@ -47,7 +51,8 @@ const topics = [
   {'name': 'Event', 'parent': 'Wellness'}
 ];
 
-// Create new post page //
+// Create new post page. //
+// For demo only. Need to be removed later. //
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -63,7 +68,6 @@ class NewPostPage extends StatefulWidget {
   @override
   State<NewPostPage> createState() => _NewPostPageState();
 }
-
 class _NewPostPageState extends State<NewPostPage> {
   @override
   Widget build(BuildContext context) {
@@ -138,9 +142,23 @@ class _NewPostPageState extends State<NewPostPage> {
                                             shape: const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.all(
                                                     Radius.zero))),
-                                        onPressed: () {
-                                          debugPrint('Received click 1');
-                                        },
+                                        onPressed: () => showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialog(
+                                            title: const Text(
+                                                'Under Construction'),
+                                            content: const Text(
+                                                'This feature is still under development and will be available soon. We apologize for any inconvenience caused. Thank you for your patience and understanding.'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    context, 'OK'),
+                                                child: const Text('OK'),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
@@ -165,9 +183,23 @@ class _NewPostPageState extends State<NewPostPage> {
                                             shape: const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.all(
                                                     Radius.zero))),
-                                        onPressed: () {
-                                          debugPrint('Received click 2');
-                                        },
+                                        onPressed: () => showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialog(
+                                                title: const Text(
+                                                    'Under Construction'),
+                                                content: const Text(
+                                                    'This feature is still under development and will be available soon. We apologize for any inconvenience caused. Thank you for your patience and understanding.'),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    onPressed: () => Navigator.pop(
+                                                        context, 'OK'),
+                                                    child: const Text('OK'),
+                                                  ),
+                                            ],
+                                          ),
+                                        ),
                                         child: const Text('Save as Draft',
                                             style: displaySmall),
                                       ),
@@ -183,11 +215,21 @@ class _NewPostPageState extends State<NewPostPage> {
                                             shape: const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.all(
                                                     Radius.zero))),
-                                        onPressed: () {
-                                          debugPrint('Received click 3');
-                                        },
-                                        child: const Text('Publish Post',
-                                            style: displaySmall),
+                                        onPressed: () => showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialog(
+                                                title: const Text('Under Construction'),
+                                                content: const Text('This feature is still under development and will be available soon. We apologize for any inconvenience caused. Thank you for your patience and understanding.'),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    onPressed: () => Navigator.pop(context, 'OK'),
+                                                    child: const Text('OK'),
+                                                  ),
+                                                ],
+                                              ),
+                                          ),
+                                        child: const Text('Publish Post',style: displaySmall),
                                       )
                                     ])
                               ]),
@@ -207,7 +249,6 @@ class DropdownButtonField extends StatefulWidget {
   @override
   State<DropdownButtonField> createState() => _DropdownButtonFieldState();
 }
-
 class _DropdownButtonFieldState extends State<DropdownButtonField> {
   var dropdownValue = "Course";
 
@@ -252,7 +293,6 @@ class InputField extends StatefulWidget {
   @override
   State<InputField> createState() => _InputFieldState();
 }
-
 class _InputFieldState extends State<InputField> {
   String _inputText = "";
   @override

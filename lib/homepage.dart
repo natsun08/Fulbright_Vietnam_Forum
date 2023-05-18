@@ -2,13 +2,13 @@
 import 'package:flutter/material.dart';
 import 'NaviBar.dart';
 import 'package:go_router/go_router.dart';
+import 'package:firebase_database/firebase_database.dart';
 
-// Query data //
-const categories = [{'name': 'Academic', 'img': '../assets/images/homepage/academic.png'},
-                    {'name': 'Career', 'img': '../assets/images/homepage/career.png'},
-                    {'name': 'Student Life', 'img': '../assets/images/homepage/studentlife.png'},
-                    {'name': 'Wellness', 'img': '../assets/images/homepage/wellness.png'}];
 
+// const categories = [{'name': 'Academic', 'img': '../assets/images/homepage/academic.png'},
+//                       {'name': 'Career', 'img': '../assets/images/homepage/career.png'},
+//                       {'name': 'Student Life', 'img': '../assets/images/homepage/studentlife.png'},
+//                       {'name': 'Wellness', 'img': '../assets/images/homepage/wellness.png'}];
 
 // Home page screen //
 class HomePage extends StatefulWidget {
@@ -19,11 +19,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Future<List<Map<String, String>>> queryData() async {
+    final ref = await FirebaseDatabase.instance.ref().child('category').get();
+    final categories = ref.value;
+    return [categories];
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<Map<String, String>> categories = queryData() as List<Map<String, String>>;
     return LayoutBuilder(builder: (context, constraints) {
       return Scaffold(
-        appBar: Bar(),
+        appBar: const Bar(),
         body: Center(
             child: CustomScrollView(
           primary: false,
