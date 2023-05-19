@@ -5,6 +5,7 @@ import 'package:Fulbright_Vietnam_Forum/APIBackend/route/route_config.dart';
 import 'theme.dart';
 import 'firebase_options.dart';
 
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
