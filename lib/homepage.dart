@@ -3,7 +3,17 @@
 import 'package:flutter/material.dart';
 import 'NaviBar.dart';
 import 'package:go_router/go_router.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
+// Query data //
+var db = FirebaseFirestore.instance; 
+final cateData = db.collection('category').get().then(
+  (querySnapshot) {
+    return [for (var docSnapshot in querySnapshot.docs) docSnapshot.data()];
+  }
+);
+
+// Home page screen //
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -14,38 +24,42 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      return Scaffold(
-        appBar: Bar(),
-        body: Center(
+    return FutureBuilder(
+      future: cateData,
+      builder: (context, snapshot) {
+        List<Map<String, dynamic>>? categories;
+        if (snapshot.hasData) {
+          categories = snapshot.data;
+        } else {
+          // ignore: avoid_print
+          print("Cannot query data");
+          categories = [];
+        }
+        return Scaffold(
+          appBar: const Bar(),
+          body: Center(
             child: CustomScrollView(
-          primary: false,
-          slivers: <Widget>[
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(100, 20, 100, 60),
-              sliver: SliverGrid.count(
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
-                crossAxisCount: 2,
-                childAspectRatio: 1.7,
-                children: const <Widget>[
-                  CategoryCard(
-                      topic: "Academic",
-                      imgPath: "../assets/images/homepage/academic.png"),
-                  CategoryCard(
-                      topic: "Career",
-                      imgPath: "../assets/images/homepage/career.png"),
-                  CategoryCard(
-                      topic: "Student Life",
-                      imgPath: "../assets/images/homepage/studentlife.png"),
-                  CategoryCard(
-                      topic: "Wellness",
-                      imgPath: "../assets/images/homepage/wellness.png"),
-                ],
+            primary: false,
+            slivers: <Widget>[
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(100, 20, 100, 60),
+                sliver: SliverGrid.count(
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20,
+                  crossAxisCount: 2,
+                  childAspectRatio: 1.7,
+                  children: <Widget>[
+                    for (var cate in categories!)
+                      CategoryCard(
+                        topic: cate['Name'].toString(),
+                        imgPath: cate['ImgPath'].toString(),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
-        )),
+            ],
+          )
+        ),
       );
     });
   }
@@ -66,7 +80,7 @@ class _CategoryCardState extends State<CategoryCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () => {GoRouter.of(context).go("/" + widget.topic)},
+        onTap: () => {GoRouter.of(context).go("/${widget.topic}")},
         onHover: (hovering) {
           setState(() => isHover = hovering);
         },
