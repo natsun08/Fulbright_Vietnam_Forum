@@ -5,6 +5,7 @@ import 'NaviBar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// Query data //
 var db = FirebaseFirestore.instance; 
 final cateData = db.collection('category').get().then(
   (querySnapshot) {
@@ -21,13 +22,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: cateData,
       builder: (context, snapshot) {
-        var categories = snapshot.data;
+        List<Map<String, dynamic>>? categories;
+        if (snapshot.hasData) {
+          categories = snapshot.data;
+        } else {
+          // ignore: avoid_print
+          print("Cannot query data");
+          categories = [];
+        }
         return Scaffold(
           appBar: const Bar(),
           body: Center(
