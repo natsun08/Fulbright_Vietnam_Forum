@@ -3,13 +3,14 @@
 import 'package:flutter/material.dart';
 import 'NaviBar.dart';
 import 'package:go_router/go_router.dart';
-import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-// const categories = [{'name': 'Academic', 'img': '../assets/images/homepage/academic.png'},
-//                       {'name': 'Career', 'img': '../assets/images/homepage/career.png'},
-//                       {'name': 'Student Life', 'img': '../assets/images/homepage/studentlife.png'},
-//                       {'name': 'Wellness', 'img': '../assets/images/homepage/wellness.png'}];
+var db = FirebaseFirestore.instance; 
+final cateData = db.collection('category').get().then(
+  (querySnapshot) {
+    return [for (var docSnapshot in querySnapshot.docs) docSnapshot.data()];
+  }
+);
 
 // Home page screen //
 class HomePage extends StatefulWidget {
@@ -20,47 +21,38 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Future<List<Map<String, String>>> queryData() async {
-    final ref = await FirebaseDatabase.instance.ref().child('category').get();
-    final categories = ref.value;
-    return [categories];
-  }
-
+  
   @override
   Widget build(BuildContext context) {
-    List<Map<String, String>> categories = queryData() as List<Map<String, String>>;
-    return LayoutBuilder(builder: (context, constraints) {
-      return Scaffold(
-        appBar: const Bar(),
-        body: Center(
+    return FutureBuilder(
+      future: cateData,
+      builder: (context, snapshot) {
+        var categories = snapshot.data;
+        return Scaffold(
+          appBar: const Bar(),
+          body: Center(
             child: CustomScrollView(
-          primary: false,
-          slivers: <Widget>[
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(100, 20, 100, 60),
-              sliver: SliverGrid.count(
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
-                crossAxisCount: 2,
-                childAspectRatio: 1.7,
-                children: const <Widget>[
-                  CategoryCard(
-                      topic: "Academic",
-                      imgPath: "../assets/images/homepage/academic.png"),
-                  CategoryCard(
-                      topic: "Career",
-                      imgPath: "../assets/images/homepage/career.png"),
-                  CategoryCard(
-                      topic: "Student Life",
-                      imgPath: "../assets/images/homepage/studentlife.png"),
-                  CategoryCard(
-                      topic: "Wellness",
-                      imgPath: "../assets/images/homepage/wellness.png"),
-                ],
+            primary: false,
+            slivers: <Widget>[
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(100, 20, 100, 60),
+                sliver: SliverGrid.count(
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20,
+                  crossAxisCount: 2,
+                  childAspectRatio: 1.7,
+                  children: <Widget>[
+                    for (var cate in categories!)
+                      CategoryCard(
+                        topic: cate['Name'].toString(),
+                        imgPath: cate['ImgPath'].toString(),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
-        )),
+            ],
+          )
+        ),
       );
     });
   }
@@ -81,7 +73,7 @@ class _CategoryCardState extends State<CategoryCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () => {GoRouter.of(context).go("/" + widget.topic)},
+        onTap: () => {GoRouter.of(context).go("/${widget.topic}")},
         onHover: (hovering) {
           setState(() => isHover = hovering);
         },
