@@ -1,5 +1,4 @@
 /// Main coder: Chi
-import 'dart:js';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -30,6 +29,11 @@ class MyAppRouter {
         path: "/:category",
         builder: (context, state) {
           return MyTopicPage(category: state.params["category"]!);
+        }),
+    GoRoute(
+        path: "/:category/:topic",
+        builder: (context, state) {
+          return MyHomePage();
         })
 
     // Will change this next phase, this's only hard code for prototype purpose
