@@ -94,7 +94,7 @@ class _TopicCardState extends State<TopicCard> {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () =>
-            {GoRouter.of(context).go("/'${widget.category}'/${widget.topic}")},
+            {GoRouter.of(context).go("/${widget.category}/${widget.topic}")},
         onHover: (hovering) {
           setState(() => isHover = hovering);
         },
