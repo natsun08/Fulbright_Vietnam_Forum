@@ -29,12 +29,10 @@ class _HomePageState extends State<HomePage> {
           if (snapshot.hasData) {
             categories = snapshot.data;
           } else {
-            // ignore: avoid_print
-            print("Cannot query data");
-            categories = [];
+            return Center(child: Text("Loading"));
           }
           return Scaffold(
-            appBar: const Bar(),
+            appBar: Bar(),
             body: Center(
                 child: CustomScrollView(
               primary: false,

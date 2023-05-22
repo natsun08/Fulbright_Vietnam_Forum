@@ -38,9 +38,14 @@ class _MyTopicPageState extends State<MyTopicPage> {
           if (snapshot.hasData) {
             topics = snapshot.data;
           } else {
-            // ignore: avoid_print
-            print("Cannot query data");
-            topics = [];
+            return Center(child: Text("Loading"));
+          }
+          if (topics!.isEmpty) {
+            return Scaffold(
+                appBar: const Bar(),
+                body: Center(
+                    child:
+                        Text("There're currently no topic in this category")));
           }
           return Scaffold(
             appBar: const Bar(),

@@ -209,9 +209,12 @@ class _MyHomePageState extends State<MyHomePage> {
           if (snapshot.hasData) {
             posts = snapshot.data;
           } else {
-            // ignore: avoid_print
-            print("Cannot query data");
-            posts = [];
+            return Center(child: Text("Loading"));
+          }
+          if (posts!.isEmpty) {
+            return Scaffold(
+                body: Center(
+                    child: Text("There're currently no post in this topic")));
           }
           return ListView.builder(
               itemCount: posts!.length,
