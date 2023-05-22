@@ -1,4 +1,5 @@
 /// Main coder: Quan
+///
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'theme.dart';
@@ -6,14 +7,22 @@ import "NaviBar.dart";
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // Query data //
-var db = FirebaseFirestore.instance;
-final topicData = db.collection('topic').where("Category", isEqualTo: "Student Life").get().then((querySnapshot) {
-  return [for (var docSnapshot in querySnapshot.docs) docSnapshot.data()];
-});
+Future<dynamic> _getdatafromfb(String category) async {
+  var db = FirebaseFirestore.instance;
+  final topicData = db
+      .collection('topic')
+      .where("Category", isEqualTo: category)
+      .get()
+      .then((querySnapshot) {
+    return [for (var docSnapshot in querySnapshot.docs) docSnapshot.data()];
+  });
+  return topicData;
+}
 
 // Topic page //
 class MyTopicPage extends StatefulWidget {
-  const MyTopicPage({super.key});
+  final String category;
+  const MyTopicPage({super.key, required this.category});
 
   @override
   State<MyTopicPage> createState() => _MyTopicPageState();
@@ -23,7 +32,7 @@ class _MyTopicPageState extends State<MyTopicPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: topicData,
+        future: _getdatafromfb('${widget.category}'),
         builder: (context, snapshot) {
           List<Map<String, dynamic>>? topics;
           if (snapshot.hasData) {
@@ -49,6 +58,7 @@ class _MyTopicPageState extends State<MyTopicPage> {
                     children: <Widget>[
                       for (var topic in topics!)
                         TopicCard(
+                          category: '${widget.category}',
                           topic: topic['Name'].toString(),
                           imgPath: topic['ImgPath'].toString(),
                         ),
@@ -64,7 +74,12 @@ class _MyTopicPageState extends State<MyTopicPage> {
 
 // Topic Card //
 class TopicCard extends StatefulWidget {
-  const TopicCard({super.key, required this.topic, required this.imgPath});
+  const TopicCard(
+      {super.key,
+      required this.category,
+      required this.topic,
+      required this.imgPath});
+  final String category;
   final String topic;
   final String imgPath;
 
@@ -78,7 +93,8 @@ class _TopicCardState extends State<TopicCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () => {GoRouter.of(context).go("/${widget.topic}")},
+        onTap: () =>
+            {GoRouter.of(context).go("/'${widget.category}'/${widget.topic}")},
         onHover: (hovering) {
           setState(() => isHover = hovering);
         },

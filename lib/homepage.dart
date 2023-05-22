@@ -6,12 +6,10 @@ import 'package:go_router/go_router.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // Query data //
-var db = FirebaseFirestore.instance; 
-final cateData = db.collection('category').get().then(
-  (querySnapshot) {
-    return [for (var docSnapshot in querySnapshot.docs) docSnapshot.data()];
-  }
-);
+var db = FirebaseFirestore.instance;
+final cateData = db.collection('category').get().then((querySnapshot) {
+  return [for (var docSnapshot in querySnapshot.docs) docSnapshot.data()];
+});
 
 // Home page screen //
 class HomePage extends StatefulWidget {
@@ -25,43 +23,42 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: cateData,
-      builder: (context, snapshot) {
-        List<Map<String, dynamic>>? categories;
-        if (snapshot.hasData) {
-          categories = snapshot.data;
-        } else {
-          // ignore: avoid_print
-          print("Cannot query data");
-          categories = [];
-        }
-        return Scaffold(
-          appBar: const Bar(),
-          body: Center(
-            child: CustomScrollView(
-            primary: false,
-            slivers: <Widget>[
-              SliverPadding(
-                padding: const EdgeInsets.fromLTRB(100, 20, 100, 60),
-                sliver: SliverGrid.count(
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 20,
-                  crossAxisCount: 2,
-                  childAspectRatio: 1.7,
-                  children: <Widget>[
-                    for (var cate in categories!)
-                      CategoryCard(
-                        topic: cate['Name'].toString(),
-                        imgPath: cate['ImgPath'].toString(),
-                    ),
-                  ],
+        future: cateData,
+        builder: (context, snapshot) {
+          List<Map<String, dynamic>>? categories;
+          if (snapshot.hasData) {
+            categories = snapshot.data;
+          } else {
+            // ignore: avoid_print
+            print("Cannot query data");
+            categories = [];
+          }
+          return Scaffold(
+            appBar: const Bar(),
+            body: Center(
+                child: CustomScrollView(
+              primary: false,
+              slivers: <Widget>[
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(100, 20, 100, 60),
+                  sliver: SliverGrid.count(
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 20,
+                    crossAxisCount: 2,
+                    childAspectRatio: 1.7,
+                    children: <Widget>[
+                      for (var cate in categories!)
+                        CategoryCard(
+                          topic: cate['Name'].toString(),
+                          imgPath: cate['ImgPath'].toString(),
+                        ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          )
-        ),
-      );
-    });
+              ],
+            )),
+          );
+        });
   }
 }
 
