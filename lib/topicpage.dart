@@ -58,6 +58,7 @@ class _MyTopicPageState extends State<MyTopicPage> {
                     children: <Widget>[
                       for (var topic in topics!)
                         TopicCard(
+                          category: '${widget.category}',
                           topic: topic['Name'].toString(),
                           imgPath: topic['ImgPath'].toString(),
                         ),
@@ -73,7 +74,12 @@ class _MyTopicPageState extends State<MyTopicPage> {
 
 // Topic Card //
 class TopicCard extends StatefulWidget {
-  const TopicCard({super.key, required this.topic, required this.imgPath});
+  const TopicCard(
+      {super.key,
+      required this.category,
+      required this.topic,
+      required this.imgPath});
+  final String category;
   final String topic;
   final String imgPath;
 
@@ -87,7 +93,8 @@ class _TopicCardState extends State<TopicCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () => {GoRouter.of(context).go("/${widget.topic}")},
+        onTap: () =>
+            {GoRouter.of(context).go("/'${widget.category}'/${widget.topic}")},
         onHover: (hovering) {
           setState(() => isHover = hovering);
         },
