@@ -33,7 +33,9 @@ class MyAppRouter {
     GoRoute(
         path: "/:category/:topic",
         builder: (context, state) {
-          return MyHomePage();
+          return MyHomePage(
+              category: state.params["category"]!,
+              topic: state.params["topic"]!);
         })
 
     // Will change this next phase, this's only hard code for prototype purpose
