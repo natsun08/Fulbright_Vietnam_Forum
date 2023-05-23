@@ -18,7 +18,21 @@ Future<dynamic> _getpost(String category, String topic) async {
   return data;
 }
 
+Future<dynamic> _getAuthor(String user) async {
+  var db = FirebaseFirestore.instance;
+  var data = db
+      .collection('users')
+      .where('username', isEqualTo: user)
+      .get()
+      .then((querySnapshot) {
+    return [for (var docSnapshot in querySnapshot.docs) docSnapshot.data()];
+  });
+
+  return data;
+}
+
 String text = '';
+const String defaultPfp = 'images/pfp/profilepic.png';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.category, required this.topic});
@@ -40,37 +54,58 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _postAuthorRow(BuildContext context, String user) {
     const double avatarDiameter = 30;
-    return GestureDetector(
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: Container(
-              width: avatarDiameter,
-              height: avatarDiameter,
-              decoration: const BoxDecoration(
-                color: Colors.blue,
-                shape: BoxShape.circle,
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(avatarDiameter / 2),
-                child: Image.asset(
-                  'images/pfp/profilepic.png',
-                  fit: BoxFit.cover,
+    String pfp = defaultPfp;
+    String username = "";
+
+    late Future<dynamic> data = _getAuthor(user);
+
+    return FutureBuilder(
+        future: data,
+        builder: (context, snapshot) {
+          List<Map<String, dynamic>>? userData;
+          if (snapshot.hasData) {
+            userData = snapshot.data;
+            pfp = userData![0]['pfp'].toString();
+            username = userData[0]['username'].toString();
+          } else {
+            return const Center(child: Text("Loading"));
+          }
+          if (userData!.isEmpty) {
+            return const Scaffold(
+                body: Center(child: Text("This user no longer exist")));
+          }
+          return GestureDetector(
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Container(
+                    width: avatarDiameter,
+                    height: avatarDiameter,
+                    decoration: const BoxDecoration(
+                      color: Colors.blue,
+                      shape: BoxShape.circle,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(avatarDiameter / 2),
+                      child: Image.asset(
+                        (pfp),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+                Text(
+                  username,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 10,
+                  ),
+                )
+              ],
             ),
-          ),
-          Text(
-            user,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 10,
-            ),
-          )
-        ],
-      ),
-    );
+          );
+        });
   }
 
   Widget _postCaption(String content) {
@@ -152,8 +187,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget editButtion(BuildContext context, int index) {
     return IconButton(
         onPressed: () {
-          //alert: all of these are kinda stupid
-          //just prompt the posting page again and update
+          //just prompt the posting page again and update instead of
+          //prompting a pop up box
           showDialog(
               context: context,
               builder: (context) => SimpleDialog(
@@ -167,10 +202,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       ElevatedButton(
                           onPressed: () {
+                            //change the data in the database
                             // setState(() {
                             //   contentData[index] = text; //update the value
                             // });
-                            // Navigator.pop(context);
+                            Navigator.pop(context);
                           },
                           child: const Text('edit'))
                     ],
@@ -185,7 +221,7 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _postAuthorRow(context, post['user'].toString()),
-            _postImage(post['Image'].toString()),
+            _postImage(post['image'].toString()),
             _postCaption(post['Title'].toString()),
             _postContent(post['Content'].toString()),
             interactButtons(context, post['like_count']),
@@ -209,10 +245,10 @@ class _MyHomePageState extends State<MyHomePage> {
           if (snapshot.hasData) {
             posts = snapshot.data;
           } else {
-            return Center(child: Text("Loading"));
+            return const Center(child: Text("Loading"));
           }
           if (posts!.isEmpty) {
-            return Scaffold(
+            return const Scaffold(
                 body: Center(
                     child: Text("There're currently no post in this topic")));
           }
