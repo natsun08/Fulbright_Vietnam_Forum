@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Fulbright_Vietnam_Forum/NaviBar.dart';
 import 'package:Fulbright_Vietnam_Forum/login.dart';
 import 'package:Fulbright_Vietnam_Forum/topicpage.dart';
@@ -10,6 +11,9 @@ import 'package:Fulbright_Vietnam_Forum/firebase_options.dart';
 import 'package:Fulbright_Vietnam_Forum/homepage.dart';
 import 'package:Fulbright_Vietnam_Forum/post_page.dart';
 import 'package:Fulbright_Vietnam_Forum/feed.dart';
+import 'package:Fulbright_Vietnam_Forum/newpost.dart';
+import 'package:Fulbright_Vietnam_Forum/services/firebase_auth_methods.dart';
+import 'package:Fulbright_Vietnam_Forum/main.dart';
 
 class MyAppRouter {
   GoRouter router = GoRouter(routes: [
@@ -17,7 +21,7 @@ class MyAppRouter {
         name: "home",
         path: '/',
         builder: (context, state) {
-          return HomePage();
+          return AuthWrapper();
         }),
     GoRoute(
         name: "login",
@@ -36,20 +40,11 @@ class MyAppRouter {
           return MyHomePage(
               category: state.params["category"]!,
               topic: state.params["topic"]!);
+        }),
+    GoRoute(
+        path: "/:category/:topic/new",
+        builder: (context, state) {
+          return NewPostPage();
         })
-
-    // Will change this next phase, this's only hard code for prototype purpose
-    // GoRoute(
-    //     name: "Student Life",
-    //     path: '/student-life',
-    //     builder: (context, state) {
-    //       return MyTopicPage();
-    //     }),
-    // GoRoute(
-    //     name: "Baking",
-    //     path: '/baking',
-    //     builder: (context, state) {
-    //       return MyHomePage();
-    //     }),
   ]);
 }
