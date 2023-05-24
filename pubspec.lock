@@ -73,30 +73,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
-  cloud_firestore:
-    dependency: "direct main"
-    description:
-      name: cloud_firestore
-      sha256: d597313deea7c06132c3e5d608b6c96b2804f39566f9074fd662753e64659895
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.7.1"
-  cloud_firestore_platform_interface:
-    dependency: transitive
-    description:
-      name: cloud_firestore_platform_interface
-      sha256: f6900ac874e326eede700483cc33e034f64bfb98b0cbcdc6c1a5133146de52f9
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.14.1"
-  cloud_firestore_web:
-    dependency: transitive
-    description:
-      name: cloud_firestore_web
-      sha256: "2f7d865102ff5209d279652d2954e161a1e74d410abe95ed2931818277df4677"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.5.1"
   collection:
     dependency: transitive
     description:
@@ -193,30 +169,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.5.0"
-  firebase_database:
-    dependency: "direct main"
-    description:
-      name: firebase_database
-      sha256: "3073063fe2886e0cdf2be1d2ae80ee13799791d1ee995599bce92e1c6889b387"
-      url: "https://pub.dev"
-    source: hosted
-    version: "10.2.0"
-  firebase_database_platform_interface:
-    dependency: transitive
-    description:
-      name: firebase_database_platform_interface
-      sha256: "9167c9244ea070fcdc4c4259ff1761a5f34484df255db35a5c4d240d7630403d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.5"
-  firebase_database_web:
-    dependency: transitive
-    description:
-      name: firebase_database_web
-      sha256: df92c650adc89d9cfcebd83210c2dd97597dba1e0c35c5c474043e71344041ed
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.3"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -296,14 +248,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.5"
-  like_button:
-    dependency: "direct main"
-    description:
-      name: like_button
-      sha256: "08e6a45b78888412df5d351786c550205ad3a677e72a0820d5bbc0b063c8a463"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.5"
   lints:
     dependency: transitive
     description:
