@@ -77,7 +77,7 @@ class FirebaseAuthMethods {
       showSnackBar(context, e.message!); // Display error message
     }
   }
-  
+
   // DELETE ACCOUNT
   Future<void> deleteAccount(BuildContext context) async {
     try {

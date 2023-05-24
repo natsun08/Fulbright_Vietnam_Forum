@@ -63,7 +63,8 @@ class AuthWrapper extends StatelessWidget {
     final firebaseUser = context.watch<User?>();
     // if user is valid return home
     if (firebaseUser == null && this.route != "login") {
-      context.go("/login");
+      // context.go("/login");
+      return LoginPage();
     }
     if (firebaseUser != null && this.route == "login") {
       GoRouter.of(context).go('/');

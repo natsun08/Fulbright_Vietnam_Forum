@@ -2,6 +2,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:Fulbright_Vietnam_Forum/NaviBar.dart';
+import 'package:go_router/go_router.dart';
 import 'package:like_button/like_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -274,7 +275,7 @@ class _MyHomePageState extends State<MyHomePage> {
             }),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            print("prompt new post page"); //!TO DO:prompt post page to open
+            context.go('/${widget.category}/${widget.topic}/new');
           },
           backgroundColor: fulbrightBlue,
           mouseCursor: SystemMouseCursors.click,
