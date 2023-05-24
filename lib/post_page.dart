@@ -5,6 +5,10 @@ import 'package:Fulbright_Vietnam_Forum/NaviBar.dart';
 import 'package:like_button/like_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
+/// Change to Theme.of(context).colorScheme.primary
+const fulbrightBlue = Color(0xFF00196E);
+
 Future<dynamic> _getpost(String category, String topic) async {
   var db = FirebaseFirestore.instance;
   final data = db
@@ -27,9 +31,6 @@ Future<dynamic> _getAuthor(String user) async {
       .then((querySnapshot) {
     return [for (var docSnapshot in querySnapshot.docs) docSnapshot.data()];
   });
-
-  return data;
-}
 
 String text = '';
 const String defaultPfp = 'images/pfp/profilepic.png';
@@ -238,36 +239,50 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _postsListView(BuildContext context) {
-    return FutureBuilder(
-        future: _getpost('${widget.category}', '${widget.topic}'),
-        builder: (context, snapshot) {
-          List<Map<String, dynamic>>? posts;
-          if (snapshot.hasData) {
-            posts = snapshot.data;
-          } else {
-            return const Center(child: Text("Loading"));
-          }
-          if (posts!.isEmpty) {
-            return const Scaffold(
-                body: Center(
-                    child: Text("There're currently no post in this topic")));
-          }
-          return ListView.builder(
-              itemCount: posts!.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  margin: const EdgeInsets.all(15.5),
-                  padding: const EdgeInsets.all(5.0),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 3,
-                      color: Colors.black,
-                    ),
-                  ),
-                  //text imported from database
-                  child: _postView(context, posts![index], index),
-                );
-              });
-        });
+    return Scaffold(
+        body: FutureBuilder(
+            future: _getpost('${widget.category}', '${widget.topic}'),
+            builder: (context, snapshot) {
+              List<Map<String, dynamic>>? posts;
+              if (snapshot.hasData) {
+                posts = snapshot.data;
+              } else {
+                return const Center(child: Text("Loading"));
+              }
+              if (posts!.isEmpty) {
+                return const Scaffold(
+                    body: Center(
+                        child:
+                            Text("There're currently no post in this topic")));
+              }
+              return ListView.builder(
+                  itemCount: posts!.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: const EdgeInsets.all(15.5),
+                      padding: const EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 3,
+                          color: Colors.black,
+                        ),
+                      ),
+                      //text imported from database
+                      child: _postView(context, posts![index], index),
+                    );
+                  });
+            }),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            print("prompt new post page"); //!TO DO:prompt post page to open
+          },
+          backgroundColor: fulbrightBlue,
+          mouseCursor: SystemMouseCursors.click,
+          tooltip: "Create a new post",
+          child: const Icon(
+            Icons.add_rounded,
+            size: 60,
+          ),
+        ));
   }
 }
