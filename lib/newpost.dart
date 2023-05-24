@@ -9,24 +9,23 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-//// Remove this
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(const MyApp());
-}
-
 // Query data //
 var db = FirebaseFirestore.instance;
 final FirebaseAuth auth = FirebaseAuth.instance;
 final userID = auth.currentUser!.uid;
-final topicData = db.collection('topic').orderBy("Category").get().then((querySnapshot) {
+final topicData =
+    db.collection('topic').orderBy("Category").get().then((querySnapshot) {
   return [for (var docSnapshot in querySnapshot.docs) docSnapshot.data()];
 });
 final addNewPost = db.collection("post").doc();
-var newPost = {"Category": "", "Topic": "", "Title": "", "Content": "", "user": userID, "like_count": 0};
+var newPost = {
+  "Category": "",
+  "Topic": "",
+  "Title": "",
+  "Content": "",
+  "user": userID,
+  "like_count": 0
+};
 
 /// Change to Theme.of(context).colorScheme.primary
 const fulbrightBlue = Color(0xFF00196E);
@@ -50,17 +49,6 @@ const displaySmall = TextStyle(
 /// Change to Theme.of(context).textTheme.displayMedium
 const displayMedium = TextStyle(
     fontSize: 24.0, fontFamily: 'Halyard Display', color: Color(0xFF212121));
-
-// Create new post page. //
-// For demo only. Need to be removed later. //
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(home: NewPostPage());
-  }
-}
 
 class NewPostPage extends StatefulWidget {
   const NewPostPage({super.key});
@@ -89,7 +77,7 @@ class _NewPostPageState extends State<NewPostPage> {
                                 children: const [
                                   Text("Create New Post", style: titleLarge),
                                   Spacer(),
-                                  Text("My Draft (3)", style: displaySmall)
+                                  Text("Draft", style: displaySmall)
                                 ]),
 
                             // Choose topic
@@ -106,6 +94,8 @@ class _NewPostPageState extends State<NewPostPage> {
                                 Container(
                                     width:
                                         MediaQuery.of(context).size.width - 300,
+                                    height: MediaQuery.of(context).size.height -
+                                        300,
                                     decoration: BoxDecoration(
                                         shape: BoxShape.rectangle,
                                         border: Border.all(
@@ -119,7 +109,7 @@ class _NewPostPageState extends State<NewPostPage> {
                                               padding: EdgeInsets.symmetric(
                                                   vertical: 12.0)),
                                           InputField(
-                                              label: "Content", numLines: 20)
+                                              label: "Content", numLines: 7)
                                         ]))),
                                 const Spacer(),
 
@@ -216,10 +206,12 @@ class _NewPostPageState extends State<NewPostPage> {
                                             shape: const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.all(
                                                     Radius.zero))),
-                                        onPressed: () => (addNewPost.set(newPost)),
-                                        child: const Text('Publish', style: displaySmall),
+                                        onPressed: () =>
+                                            (addNewPost.set(newPost)),
+                                        child: const Text('Publish',
+                                            style: displaySmall),
                                       ),
-                                ])
+                                    ])
                               ]),
                             )
                           ])),
