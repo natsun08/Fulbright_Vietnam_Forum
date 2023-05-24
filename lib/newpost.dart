@@ -301,18 +301,21 @@ class _DropdownButtonFieldState extends State<DropdownButtonField> {
               child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: DropdownButton<String>(
-                      value: dropdownTop,
+                      value: ("${dropdowmCat}/${dropdownTop}"),
                       icon: const Icon(Icons.expand_more),
                       underline: Container(color: Colors.transparent),
                       onChanged: (newValue) {
                         setState(() {
-                          dropdownTop = newValue!;
-                          newPost["Topic"] = newValue;
+                          List top_cat = newValue!.split("/");
+                          dropdownTop = top_cat[1];
+                          dropdowmCat = top_cat[0];
+                          newPost["Topic"] = top_cat[1];
+                          newPost["Category"] = top_cat[0];
                         });
                       },
                       items: topics!.map((Map<String, dynamic> topic) {
                         return DropdownMenuItem<String>(
-                          value: topic['Name'],
+                          value: ("${topic['Category']}/${topic['Name']}"),
                           child: Text("${topic['Category']}/${topic['Name']}"),
                         );
                       }).toList())));
