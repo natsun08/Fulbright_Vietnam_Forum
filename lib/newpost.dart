@@ -17,15 +17,23 @@ final topicData =
     db.collection('topic').orderBy("Category").get().then((querySnapshot) {
   return [for (var docSnapshot in querySnapshot.docs) docSnapshot.data()];
 });
+
 final addNewPost = db.collection("post").doc();
 var newPost = {
   "Category": "",
   "Topic": "",
   "Title": "",
   "Content": "",
-  "user": userID,
+  "user": "",
   "like_count": 0
 };
+
+Future user_info =
+    db.collection('users').doc(userID).get().then((querySnapshot) {
+  final data = querySnapshot.data();
+  newPost["user"] = data!["username"];
+  print(newPost);
+});
 
 /// Change to Theme.of(context).colorScheme.primary
 const fulbrightBlue = Color(0xFF00196E);
@@ -51,8 +59,9 @@ const displayMedium = TextStyle(
     fontSize: 24.0, fontFamily: 'Halyard Display', color: Color(0xFF212121));
 
 class NewPostPage extends StatefulWidget {
-  const NewPostPage({super.key});
-
+  const NewPostPage({super.key, required this.category, required this.topic});
+  final String category;
+  final String topic;
   @override
   State<NewPostPage> createState() => _NewPostPageState();
 }
@@ -84,7 +93,10 @@ class _NewPostPageState extends State<NewPostPage> {
                             const Divider(color: fulbrightBlue, thickness: 1),
                             const Padding(
                                 padding: EdgeInsets.symmetric(vertical: 12.0)),
-                            const DropdownButtonField(initalValue: "Clubs"),
+                            DropdownButtonField(
+                              initalTop: widget.topic,
+                              initialCat: widget.category,
+                            ),
                             const Padding(
                                 padding: EdgeInsets.symmetric(vertical: 4.0)),
 
@@ -206,8 +218,35 @@ class _NewPostPageState extends State<NewPostPage> {
                                             shape: const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.all(
                                                     Radius.zero))),
-                                        onPressed: () =>
-                                            (addNewPost.set(newPost)),
+                                        onPressed: () {
+                                          user_info.whenComplete(() {
+                                            addNewPost
+                                                .set(newPost)
+                                                .then((value) {
+                                              showDialog<String>(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          AlertDialog(
+                                                            title: const Text(
+                                                                'Success'),
+                                                            content: const Text(
+                                                                'You\'ve submit successfuly.'),
+                                                            actions: <Widget>[
+                                                              TextButton(
+                                                                onPressed: () =>
+                                                                    Navigator.pop(
+                                                                        context,
+                                                                        'OK'),
+                                                                child:
+                                                                    const Text(
+                                                                        'OK'),
+                                                              ),
+                                                            ],
+                                                          ));
+                                            });
+                                          });
+                                        },
                                         child: const Text('Publish',
                                             style: displaySmall),
                                       ),
@@ -223,20 +262,25 @@ class _NewPostPageState extends State<NewPostPage> {
 
 // Dropdown Button //
 class DropdownButtonField extends StatefulWidget {
-  const DropdownButtonField({super.key, required this.initalValue});
-  final String initalValue;
+  const DropdownButtonField(
+      {super.key, required this.initalTop, required this.initialCat});
+  final String initalTop;
+  final String initialCat;
 
   @override
   State<DropdownButtonField> createState() => _DropdownButtonFieldState();
 }
 
 class _DropdownButtonFieldState extends State<DropdownButtonField> {
-  var dropdownValue = "Course";
-
+  var dropdownTop;
+  var dropdowmCat;
   @override
   initState() {
     super.initState();
-    dropdownValue = widget.initalValue;
+    dropdownTop = widget.initalTop;
+    dropdowmCat = widget.initialCat;
+    newPost["Topic"] = dropdownTop;
+    newPost["Category"] = dropdowmCat;
   }
 
   @override
@@ -248,8 +292,6 @@ class _DropdownButtonFieldState extends State<DropdownButtonField> {
           if (snapshot.hasData) {
             topics = snapshot.data;
           } else {
-            // ignore: avoid_print
-            print("Cannot query data");
             topics = [];
           }
           return Container(
@@ -259,12 +301,12 @@ class _DropdownButtonFieldState extends State<DropdownButtonField> {
               child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: DropdownButton<String>(
-                      value: dropdownValue,
+                      value: dropdownTop,
                       icon: const Icon(Icons.expand_more),
                       underline: Container(color: Colors.transparent),
                       onChanged: (newValue) {
                         setState(() {
-                          dropdownValue = newValue!;
+                          dropdownTop = newValue!;
                           newPost["Topic"] = newValue;
                         });
                       },

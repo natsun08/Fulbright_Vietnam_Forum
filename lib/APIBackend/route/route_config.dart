@@ -23,7 +23,7 @@ class MyAppRouter {
           name: "home",
           path: '/',
           builder: (context, state) {
-            return AuthWrapper(current_page: HomePage());
+            return AuthWrapper(current_page: HomePage(), route: state.location);
           }),
       GoRoute(
           name: "login",
@@ -51,7 +51,10 @@ class MyAppRouter {
       GoRoute(
           path: "/:category/:topic/new",
           builder: (context, state) {
-            return AuthWrapper(current_page: NewPostPage());
+            return AuthWrapper(
+                current_page: NewPostPage(
+                    category: state.params["category"]!,
+                    topic: state.params["topic"]!));
           })
     ],
     errorBuilder: (context, state) {
