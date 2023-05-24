@@ -6,11 +6,16 @@ import 'package:Fulbright_Vietnam_Forum/APIBackend/route/route_config.dart';
 import 'package:Fulbright_Vietnam_Forum/NaviBar.dart';
 import 'package:Fulbright_Vietnam_Forum/login.dart';
 import 'package:Fulbright_Vietnam_Forum/topicpage.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'services/firebase_auth_methods.dart';
 import 'theme.dart';
 import 'firebase_options.dart';
 import 'homepage.dart';
+
+//authentication info:
+//thaouyen.nttu@gmail.com
+//thaouyen.nttu
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,23 +45,29 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp.router(
-            title: 'Fulbright Forum',
-            debugShowCheckedModeBanner: false,
-            theme: MyTheme.defaultTheme,
-            routerConfig: MyAppRouter().router));
+          title: 'Fulbright Forum',
+          debugShowCheckedModeBanner: false,
+          theme: MyTheme.defaultTheme,
+          routerConfig: MyAppRouter().router,
+        ));
   }
 }
 
 class AuthWrapper extends StatelessWidget {
-  const AuthWrapper({Key? key}) : super(key: key);
+  const AuthWrapper({super.key, required this.current_page, this.route});
+  final Widget current_page;
+  final route;
 
   @override
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User?>();
     // if user is valid return home
-    if (firebaseUser != null) {
-      return const HomePage();
+    if (firebaseUser == null && this.route != "login") {
+      context.go("/login");
     }
-    return const LoginPage();
+    if (firebaseUser != null && this.route == "login") {
+      GoRouter.of(context).go('/');
+    }
+    return this.current_page;
   }
 }

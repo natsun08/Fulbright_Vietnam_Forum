@@ -18,7 +18,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  
   // String _email = ''; // to store user input
   // String _password = '';
   bool login = false;
@@ -29,13 +28,14 @@ class _LoginPageState extends State<LoginPage> {
 
   void loginUser() {
     FirebaseAuthMethods(FirebaseAuth.instance).loginWithEmail(
-          email: _emailController.text,
-          password: _passwordController.text,
-          context: context,
-        );
+      email: _emailController.text,
+      password: _passwordController.text,
+      context: context,
+    );
   }
+
   @override
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color.fromRGBO(0, 25, 110, 1),
         body: Center(
@@ -67,59 +67,58 @@ class _LoginPageState extends State<LoginPage> {
 
                   //====== username textfield ======
                   TextFormField(
-                      style: TextStyle(fontSize: 16.0),
-                      controller: _emailController,
-                      decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromRGBO(0, 25, 110, 100))),
-                          hintText: 'Enter your username',
-                          // errorText: 'Incorrect username or password',
-                          suffixIcon: Icon(Icons.perm_identity_rounded),
-                          fillColor: Colors.grey[200],
-                          filled: true),
-                                                  
-                          ),
-                  SizedBox(height: 20),
-
-                  // PASSWORD INPUT
-                  Text('Password',
-                  style: TextStyle(
-                    color: Color.fromRGBO(0, 25, 110, 1),
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400)),
-                  SizedBox(height: 10),
-
-                  //====== password textfield ====== 
-                  TextFormField(
-                    key: ValueKey('password'),
                     style: TextStyle(fontSize: 16.0),
-                    obscureText: isPasswordHidden,
-                    controller: _passwordController,
+                    controller: _emailController,
                     decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.white)),
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Color.fromRGBO(0, 25, 110, 100))),
-                        // errorText: isPasswordCorrect
-                        //     ? null
-                        //     : 'Incorrect login information',
-                        errorStyle: TextStyle(color: Colors.red),
-                        // eye_icon
-                        suffixIcon: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isPasswordHidden = !isPasswordHidden;
-                              });
-                            },
-                            child: Icon(isPasswordHidden
-                                ? Icons.visibility_off_outlined
-                                : Icons.visibility_outlined)),
-                        fillColor: Colors.grey[150],
-                        filled: true)),
+                        hintText: 'Enter your username',
+                        // errorText: 'Incorrect username or password',
+                        suffixIcon: Icon(Icons.perm_identity_rounded),
+                        fillColor: Colors.grey[200],
+                        filled: true),
+                  ),
+                  SizedBox(height: 20),
+
+                  // PASSWORD INPUT
+                  Text('Password',
+                      style: TextStyle(
+                          color: Color.fromRGBO(0, 25, 110, 1),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400)),
+                  SizedBox(height: 10),
+
+                  //====== password textfield ======
+                  TextFormField(
+                      key: ValueKey('password'),
+                      style: TextStyle(fontSize: 16.0),
+                      obscureText: isPasswordHidden,
+                      controller: _passwordController,
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color.fromRGBO(0, 25, 110, 100))),
+                          // errorText: isPasswordCorrect
+                          //     ? null
+                          //     : 'Incorrect login information',
+                          errorStyle: TextStyle(color: Colors.red),
+                          // eye_icon
+                          suffixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isPasswordHidden = !isPasswordHidden;
+                                });
+                              },
+                              child: Icon(isPasswordHidden
+                                  ? Icons.visibility_off_outlined
+                                  : Icons.visibility_outlined)),
+                          fillColor: Colors.grey[150],
+                          filled: true)),
                   SizedBox(height: 10),
                   Text('Forgot Password',
                       style: TextStyle(
@@ -132,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   SizedBox(height: 10),
 
-                  // ============ Login elevated button ============ 
+                  // ============ Login elevated button ============
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.8,
                     height: MediaQuery.of(context).size.height * 0.06,
@@ -142,11 +141,10 @@ class _LoginPageState extends State<LoginPage> {
                                 color: Color.fromRGBO(0, 25, 110, 1),
                                 fontSize: 15,
                                 fontWeight: FontWeight.w100)),
-                            
-                            onPressed: loginUser,
+                        onPressed: loginUser,
                         // onPressed: () async {
                         //   if (_formKey.currentState!.validate()) {
-                            
+
                         //   }
                         //   // update our string variable to get user input
                         //   // Chi works on the verification for the _email
@@ -161,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
                         //     });
                         //   }
                         // },
-                        
+
                         style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.all(20.0),
                             fixedSize: Size(110, 49),
@@ -172,6 +170,4 @@ class _LoginPageState extends State<LoginPage> {
         ));
     // This trailing comma makes auto-formatting nicer for build methods.
   }
-
-  
 }
