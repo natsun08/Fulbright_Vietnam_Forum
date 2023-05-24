@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'theme.dart';
 import "NaviBar.dart";
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -20,11 +20,13 @@ Future<void> main() async {
 
 // Query data //
 var db = FirebaseFirestore.instance;
+final FirebaseAuth auth = FirebaseAuth.instance;
+final userID = auth.currentUser!.uid;
 final topicData = db.collection('topic').orderBy("Category").get().then((querySnapshot) {
   return [for (var docSnapshot in querySnapshot.docs) docSnapshot.data()];
 });
 final addNewPost = db.collection("post").doc();
-var newPost = {"Category": "", "Topic": "", "Title": "", "Content": ""};
+var newPost = {"Category": "", "Topic": "", "Title": "", "Content": "", "user": userID, "like_count": 0};
 
 /// Change to Theme.of(context).colorScheme.primary
 const fulbrightBlue = Color(0xFF00196E);
