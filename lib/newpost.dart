@@ -17,18 +17,23 @@ final topicData =
     db.collection('topic').orderBy("Category").get().then((querySnapshot) {
   return [for (var docSnapshot in querySnapshot.docs) docSnapshot.data()];
 });
-// final user_info = db.collection('users').doc(userID).get().then((docSnapshot) {
-//   return [docSnapshot.data()];
-// });
+
 final addNewPost = db.collection("post").doc();
 var newPost = {
   "Category": "",
   "Topic": "",
   "Title": "",
   "Content": "",
-  "user": userID,
+  "user": "",
   "like_count": 0
 };
+
+Future user_info =
+    db.collection('users').doc(userID).get().then((querySnapshot) {
+  final data = querySnapshot.data();
+  newPost["user"] = data!["username"];
+  print(newPost);
+});
 
 /// Change to Theme.of(context).colorScheme.primary
 const fulbrightBlue = Color(0xFF00196E);
@@ -213,8 +218,35 @@ class _NewPostPageState extends State<NewPostPage> {
                                             shape: const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.all(
                                                     Radius.zero))),
-                                        onPressed: () =>
-                                            (addNewPost.set(newPost)),
+                                        onPressed: () {
+                                          user_info.whenComplete(() {
+                                            addNewPost
+                                                .set(newPost)
+                                                .then((value) {
+                                              showDialog<String>(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          AlertDialog(
+                                                            title: const Text(
+                                                                'Success'),
+                                                            content: const Text(
+                                                                'You\'ve submit successfuly.'),
+                                                            actions: <Widget>[
+                                                              TextButton(
+                                                                onPressed: () =>
+                                                                    Navigator.pop(
+                                                                        context,
+                                                                        'OK'),
+                                                                child:
+                                                                    const Text(
+                                                                        'OK'),
+                                                              ),
+                                                            ],
+                                                          ));
+                                            });
+                                          });
+                                        },
                                         child: const Text('Publish',
                                             style: displaySmall),
                                       ),
