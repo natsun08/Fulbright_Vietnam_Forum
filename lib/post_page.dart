@@ -5,6 +5,7 @@ import 'package:Fulbright_Vietnam_Forum/NaviBar.dart';
 import 'package:like_button/like_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
 /// Change to Theme.of(context).colorScheme.primary
 const fulbrightBlue = Color(0xFF00196E);
 
@@ -30,9 +31,6 @@ Future<dynamic> _getAuthor(String user) async {
       .then((querySnapshot) {
     return [for (var docSnapshot in querySnapshot.docs) docSnapshot.data()];
   });
-
-  return data;
-}
 
 String text = '';
 const String defaultPfp = 'images/pfp/profilepic.png';

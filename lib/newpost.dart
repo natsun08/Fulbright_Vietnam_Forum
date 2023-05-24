@@ -4,50 +4,55 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'theme.dart';
 import "NaviBar.dart";
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() => runApp(const MyApp()); // Remove this
+//// Remove this
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const MyApp());
+}
 
 // Query data //
+var db = FirebaseFirestore.instance;
+final FirebaseAuth auth = FirebaseAuth.instance;
+final userID = auth.currentUser!.uid;
+final topicData = db.collection('topic').orderBy("Category").get().then((querySnapshot) {
+  return [for (var docSnapshot in querySnapshot.docs) docSnapshot.data()];
+});
+final addNewPost = db.collection("post").doc();
+var newPost = {"Category": "", "Topic": "", "Title": "", "Content": "", "user": userID, "like_count": 0};
+
 /// Change to Theme.of(context).colorScheme.primary
 const fulbrightBlue = Color(0xFF00196E);
+
 /// Change to Theme.of(context).colorScheme.secondary
 const fulbrightGlod = Color(0xFFFFAD1D);
+
 /// Change to Theme.of(context).textTheme.titleLarge
 const titleLarge = TextStyle(
     fontSize: 48.0,
     fontFamily: 'Garamond Premier Pro',
     color: Color(0xFF00196E));
+
 /// Change to Theme.of(context).textTheme.displaySmall
 const displaySmall = TextStyle(
     fontSize: 16.0,
     fontWeight: FontWeight.w500,
     fontFamily: 'Halyard Display',
     color: Color(0xFF212121));
+
 /// Change to Theme.of(context).textTheme.displayMedium
 const displayMedium = TextStyle(
     fontSize: 24.0, fontFamily: 'Halyard Display', color: Color(0xFF212121));
-const topics = [
-  {'name': 'Course', 'parent': 'Academic'},
-  {'name': 'Event', 'parent': 'Academic'},
-  {'name': 'Library', 'parent': 'Academic'},
-  {'name': 'Opportunities', 'parent': 'Academic'},
-  {'name': 'Baking', 'parent': 'Student Life'},
-  {'name': 'Cooking', 'parent': 'Student Life'},
-  {'name': 'Clubs', 'parent': 'Student Life'},
-  {'name': 'Financial Management', 'parent': 'Student Life'},
-  {'name': 'Inclusivity', 'parent': 'Student Life'},
-  {'name': 'Night Life', 'parent': 'Student Life'},
-  {'name': 'Residential Life', 'parent': 'Student Life'},
-  {'name': 'Sports', 'parent': 'Student Life'},
-  {'name': 'Others', 'parent': 'Student Life'},
-  {'name': 'Internship', 'parent': 'Career'},
-  {'name': 'Job Listing', 'parent': 'Career'},
-  {'name': 'Work study', 'parent': 'Career'},
-  {'name': 'Confession', 'parent': 'Wellness'},
-  {'name': 'Event', 'parent': 'Wellness'}
-];
 
-// Create new post page //
+// Create new post page. //
+// For demo only. Need to be removed later. //
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -138,9 +143,23 @@ class _NewPostPageState extends State<NewPostPage> {
                                             shape: const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.all(
                                                     Radius.zero))),
-                                        onPressed: () {
-                                          debugPrint('Received click 1');
-                                        },
+                                        onPressed: () => showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialog(
+                                            title: const Text(
+                                                'Under Construction'),
+                                            content: const Text(
+                                                'This feature is still under development and will be available soon. We apologize for any inconvenience caused. Thank you for your patience and understanding.'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    context, 'OK'),
+                                                child: const Text('OK'),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
@@ -165,9 +184,23 @@ class _NewPostPageState extends State<NewPostPage> {
                                             shape: const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.all(
                                                     Radius.zero))),
-                                        onPressed: () {
-                                          debugPrint('Received click 2');
-                                        },
+                                        onPressed: () => showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialog(
+                                            title: const Text(
+                                                'Under Construction'),
+                                            content: const Text(
+                                                'This feature is still under development and will be available soon. We apologize for any inconvenience caused. Thank you for your patience and understanding.'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    context, 'OK'),
+                                                child: const Text('OK'),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                         child: const Text('Save as Draft',
                                             style: displaySmall),
                                       ),
@@ -183,13 +216,10 @@ class _NewPostPageState extends State<NewPostPage> {
                                             shape: const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.all(
                                                     Radius.zero))),
-                                        onPressed: () {
-                                          debugPrint('Received click 3');
-                                        },
-                                        child: const Text('Publish Post',
-                                            style: displaySmall),
-                                      )
-                                    ])
+                                        onPressed: () => (addNewPost.set(newPost)),
+                                        child: const Text('Publish', style: displaySmall),
+                                      ),
+                                ])
                               ]),
                             )
                           ])),
@@ -219,27 +249,40 @@ class _DropdownButtonFieldState extends State<DropdownButtonField> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            border: Border.all(width: 1, color: fulbrightBlue)),
-        child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: DropdownButton<String>(
-                value: dropdownValue,
-                icon: const Icon(Icons.expand_more),
-                underline: Container(color: Colors.transparent),
-                onChanged: (newValue) {
-                  setState(() {
-                    dropdownValue = newValue!;
-                  });
-                },
-                items: topics.map((Map<String, String> topic) {
-                  return DropdownMenuItem<String>(
-                    value: topic['name'],
-                    child: Text("${topic['parent']}/${topic['name']}"),
-                  );
-                }).toList())));
+    return FutureBuilder(
+        future: topicData,
+        builder: (context, snapshot) {
+          List<Map<String, dynamic>>? topics;
+          if (snapshot.hasData) {
+            topics = snapshot.data;
+          } else {
+            // ignore: avoid_print
+            print("Cannot query data");
+            topics = [];
+          }
+          return Container(
+              decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  border: Border.all(width: 1, color: fulbrightBlue)),
+              child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: DropdownButton<String>(
+                      value: dropdownValue,
+                      icon: const Icon(Icons.expand_more),
+                      underline: Container(color: Colors.transparent),
+                      onChanged: (newValue) {
+                        setState(() {
+                          dropdownValue = newValue!;
+                          newPost["Topic"] = newValue;
+                        });
+                      },
+                      items: topics!.map((Map<String, dynamic> topic) {
+                        return DropdownMenuItem<String>(
+                          value: topic['Name'],
+                          child: Text("${topic['Category']}/${topic['Name']}"),
+                        );
+                      }).toList())));
+        });
   }
 }
 
@@ -265,6 +308,7 @@ class _InputFieldState extends State<InputField> {
         onChanged: (value) {
           setState(() {
             _inputText = value;
+            newPost[widget.label] = value;
           });
         },
         decoration: InputDecoration(

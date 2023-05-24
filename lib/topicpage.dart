@@ -1,35 +1,28 @@
 /// Main coder: Quan
+///
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'theme.dart';
 import "NaviBar.dart";
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 // Query data //
-const topics = [
-  {'name': 'Baking', 'img': '../assets/images/topicpage/baking.png'},
-  {'name': 'Cooking', 'img': '../assets/images/topicpage/cooking.png'},
-  {'name': 'Clubs', 'img': '../assets/images/topicpage/clubs.png'},
-  {
-    'name': 'Entertainment',
-    'img': '../assets/images/topicpage/entertainment.png'
-  },
-  {
-    'name': 'Financial Management',
-    'img': '../assets/images/topicpage/financialmanagement.png'
-  },
-  {'name': 'Inclusivity', 'img': '../assets/images/topicpage/inclusivity.png'},
-  {'name': 'Night Life', 'img': '../assets/images/topicpage/nightlife.png'},
-  {
-    'name': 'Residential Life',
-    'img': '../assets/images/topicpage/residentiallife.png'
-  },
-  {'name': 'Sports', 'img': '../assets/images/topicpage/sports.png'},
-  {'name': 'Others', 'img': '../assets/images/topicpage/others.png'}
-];
+Future<dynamic> _getdatafromfb(String category) async {
+  var db = FirebaseFirestore.instance;
+  final topicData = db
+      .collection('topic')
+      .where("Category", isEqualTo: category)
+      .get()
+      .then((querySnapshot) {
+    return [for (var docSnapshot in querySnapshot.docs) docSnapshot.data()];
+  });
+  return topicData;
+}
 
 // Topic page //
 class MyTopicPage extends StatefulWidget {
-  const MyTopicPage({super.key});
+  final String category;
+  const MyTopicPage({super.key, required this.category});
 
   @override
   State<MyTopicPage> createState() => _MyTopicPageState();
@@ -38,39 +31,60 @@ class MyTopicPage extends StatefulWidget {
 class _MyTopicPageState extends State<MyTopicPage> {
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      return Scaffold(
-        appBar: const Bar(),
-        body: Center(
-            child: CustomScrollView(
-          primary: false,
-          slivers: <Widget>[
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(80, 20, 80, 60),
-              sliver: SliverGrid.count(
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
-                crossAxisCount: 4,
-                childAspectRatio: 1.3,
-                children: <Widget>[
-                  for (var topic in topics)
-                    TopicCard(
-                      topic: topic['name'].toString(),
-                      imgPath: topic['img'].toString(),
-                    ),
-                ],
-              ),
-            ),
-          ],
-        )),
-      );
-    });
+    return FutureBuilder(
+        future: _getdatafromfb('${widget.category}'),
+        builder: (context, snapshot) {
+          List<Map<String, dynamic>>? topics;
+          if (snapshot.hasData) {
+            topics = snapshot.data;
+          } else {
+            return Center(child: Text("Loading"));
+          }
+          if (topics!.isEmpty) {
+            return Scaffold(
+                appBar: const Bar(),
+                body: Center(
+                    child:
+                        Text("There're currently no topic in this category")));
+          }
+          return Scaffold(
+            appBar: const Bar(),
+            body: Center(
+                child: CustomScrollView(
+              primary: false,
+              slivers: <Widget>[
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(80, 20, 80, 60),
+                  sliver: SliverGrid.count(
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 20,
+                    crossAxisCount: 4,
+                    childAspectRatio: 1.3,
+                    children: <Widget>[
+                      for (var topic in topics!)
+                        TopicCard(
+                          category: '${widget.category}',
+                          topic: topic['Name'].toString(),
+                          imgPath: topic['ImgPath'].toString(),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            )),
+          );
+        });
   }
 }
 
 // Topic Card //
 class TopicCard extends StatefulWidget {
-  const TopicCard({super.key, required this.topic, required this.imgPath});
+  const TopicCard(
+      {super.key,
+      required this.category,
+      required this.topic,
+      required this.imgPath});
+  final String category;
   final String topic;
   final String imgPath;
 
@@ -84,7 +98,8 @@ class _TopicCardState extends State<TopicCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () => {GoRouter.of(context).go("/" + widget.topic)},
+        onTap: () =>
+            {GoRouter.of(context).go("/${widget.category}/${widget.topic}")},
         onHover: (hovering) {
           setState(() => isHover = hovering);
         },

@@ -1,6 +1,7 @@
 /// Main coder: Uyen
 /// Small modification: Chi
 // NAVIGATION BAR MAIN
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'theme.dart';
 
@@ -47,7 +48,10 @@ class _NaviBarState extends State<NaviBar> {
                 icon: const Icon(Icons.menu)),
             const SizedBox(width: 30.0),
             // CHILD 2: LOGO
-            Image.asset('images/icon/Logo.png'),
+            InkWell(
+              onTap: () => context.go("/"),
+              child: Image.asset('images/icon/Logo.png'),
+            ),
             const SizedBox(width: 60.0),
             // CHILD 3: SEARCH BOX
             Flexible(
